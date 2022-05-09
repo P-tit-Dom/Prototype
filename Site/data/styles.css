@@ -102,6 +102,9 @@
   color:#000000;
   text-align:left;
 }
+.checkbox {
+  text-align:left;
+}
 .flow_shape {
 }
 .table_cell {
@@ -125,7 +128,7 @@
 }
 .shape1 {
 }
-.checkbox {
+.checkbox1 {
   text-align:left;
 }
 textarea, select, input, button { outline: none; }
