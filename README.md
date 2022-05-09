@@ -1,5 +1,6 @@
 # Prototype
 Maquette du site web ABAbyPtitDom en cours de développement
+Maquette disponible sur : *https://p-tit-dom.github.io/Prototype/*
 
 ## Prérequis :
 - Axure RP 10 (free trial de 30 jours, possibilité de demander une version étudiante gratuitement) :
