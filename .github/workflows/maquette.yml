@@ -1,35 +1,33 @@
-name: website
+# Nom de notre workflow
+name: "Build and deploy Github pages"
 
-on: push
+# Événements sur lesquels il doit être déclenché
+on:
+  push:         # <- Déclenché lorsque l'on pousse du code...
+    branches:
+      - main  # <- ... mais seulement sur la branche "master"
 
 jobs:
-  publish:
+
+  # Notre job
+  build-and-deploy:
     runs-on: ubuntu-latest
+
+    # Tâches à effectuer, comme expliquées ci-dessus
     steps:
-      -
-        name: Checkout
+
+      # 1. On récupère le contenu du dépôt
+
+      - name: "Checkout"
         uses: actions/checkout@v2
-      -
-        name: Gen dummy page
-        run: |
-          mkdir prototype
-          cat > prototype/Site/index.html <<EOL
-          <!doctype html>
-          <html>
-            <head>
-              <title>GitHub Pages deployed!</title>
-            </head>
-            <body>
-              <p>GitHub Pages with <strong>${{ github.sha }}</strong> commit ID has been deployed through <a href="https://github.com/marketplace/actions/github-pages">GitHub Pages action</a> successfully.</p>
-            </body>
-          </html>
-          EOL
-      -
-        name: Deploy to GitHub Pages
-        if: success()
-        uses: crazy-max/ghaction-github-pages@v2
         with:
-          target_branch: gh-pages
-          build_dir: public
-        env:
+          persist-credentials: false
+
+      # 3. Déploiement sur les Github Pages
+      
+      - name: "Deploy Github Pages"
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages     # <- Branche sur laquelle seront commités les fichiers
+          FOLDER: Site  # <- Dossier contenant notre documentation générée
