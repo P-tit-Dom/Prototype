@@ -135,4 +135,13 @@
 }
 .line1 {
 }
+.shape2 {
+  font-family:"Arial Normal", "Arial", sans-serif;
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+  text-align:center;
+  line-height:normal;
+}
 textarea, select, input, button { outline: none; }
