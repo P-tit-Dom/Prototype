@@ -12,7 +12,7 @@ Maquette du site web ABAbyPtitDom en cours de développement (disponible [ici](h
 
 ## Fonctionnement global
 
-Axure est un logiciel de créations de maquettes interactives pour la création de sites web ou de logiciels. Il met à disposition une librairie de widgets (boutons, listes, zones de texte...) et de formes géométriques que l'on peut disposer librement sur des pages formatée selon le type d'appareil auquel la maquette est destinée.
+Axure est un logiciel de créations de maquettes interactives pour la création de sites web ou de logiciels. Il met à disposition une librairie de widgets (boutons, listes, zones de texte...) et de formes géométriques que l'on peut disposer librement sur des pages formatées selon le type d'appareil auquel la maquette est destinée.
 Pour cela glisser-déposer l'élément à ajouter de la librairie vers la page en cours d'édition :
 
 |Ajouter des widgets à la page|Gérer les intéractions entre widgets et la mise en page|
