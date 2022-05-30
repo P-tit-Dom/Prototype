@@ -1,0 +1,19 @@
+﻿body {
+  margin:0px;
+  background-color:rgba(177, 179, 90, 0.17647058823529413);
+  background-image:none;
+  position:relative;
+  left:-0px;
+  width:1366px;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:left;
+}
+.form_sketch {
+  border-color:transparent;
+  background-color:transparent;
+}
+#base {
+  position:absolute;
+  z-index:0;
+}
