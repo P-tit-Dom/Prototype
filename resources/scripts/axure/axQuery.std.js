@@ -1563,8 +1563,8 @@ $axure.internal(function($ax) {
     };
 
     //relative to the page
-    $ax.public.fn.pageBoundingRect = function (ignoreRotation, scrollableId) {
-        var boundingRect = this.offsetBoundingRect(ignoreRotation);
+    $ax.public.fn.pageBoundingRect = function (ignoreRotation, scrollableId, ignoreOuterShadow) {
+        var boundingRect = this.offsetBoundingRect(ignoreRotation, ignoreOuterShadow);
         if(!boundingRect) return undefined;
 
         if(boundingRect.isFixed) return _populateBoundingRect(boundingRect);
