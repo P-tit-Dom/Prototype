@@ -240,7 +240,7 @@ $axure.internal(function ($ax) {
     $axure.getRectAndStyleById = function (id) {
         var axObj = $ax('#' + id);
         try {
-            var rect = axObj.pageBoundingRect(); // can throw exception
+            var rect = axObj.pageBoundingRect(null, null, true); // can throw exception
             var style = $ax.style.computeFullStyle(id, $ax.style.generateState(id), $ax.adaptive.currentViewId);
             style.text = axObj.text();
             return { 'id': id, 'rect': rect, 'style': style };

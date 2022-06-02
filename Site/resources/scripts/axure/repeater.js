@@ -2327,7 +2327,17 @@ $axure.internal(function($ax) {
             var clampLoc = $jobj(id);
             if(typeof clampWidth == 'undefined') clampWidth = _getClamp(id)[clamp.offset]();
 
-            clamp.start = $ax.getNumFromPx(clampLoc.css(clamp.prop)) + $ax.getNumFromPx(clampLoc.css('margin-' + clamp.prop));
+            var clampPropValueCss = clampLoc.css(clamp.prop);
+            var clampPropValue = clampPropValueCss.endsWith('%') ? 
+                (vert ? clampLoc.width() : clampLoc.height()) * (Number(clampPropValueCss.replace('%', '')) / 100) :
+                $ax.getNumFromPx(clampPropValueCss);
+
+            var clampPropMarginCss = clampLoc.css('margin-' + clamp.prop);
+            var clampPropMargin = clampPropMarginCss.endsWith('%') ?
+                (vert ? clampLoc.width() : clampLoc.height()) * (Number(clampPropMarginCss.replace('%', '')) / 100) :
+                $ax.getNumFromPx(clampPropMarginCss);
+
+            clamp.start = clampPropValue + clampPropMargin;
             clamp.end = clamp.start + clampWidth;
         }
 
@@ -2335,7 +2345,7 @@ $axure.internal(function($ax) {
         if (isNaN(clamp.start) || isNaN(clamp.end) || isNaN(threshold) || isNaN(delta)) return;
 
         // Update clamp if fixed, to account for body position (only necessary when page centered)
-        if($jobj(id).css('position') == 'fixed') {
+        if ($jobj(id).css('position') == 'fixed' && $jobj(id).css('display') != 'none') {
             var clampDelta = document.getElementById('base').getBoundingClientRect().left;
             clamp.start -= clampDelta;
             clamp.end -= clampDelta;
