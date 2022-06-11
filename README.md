@@ -1,5 +1,7 @@
 # Prototype
 
+[![License: GPL v3](https://img.shields.io/github/license/P-tit-Dom/Prototype)](https://github.com/P-tit-Dom/Prototype/blob/main/LICENSE)
+
 [![Build](https://github.com/P-tit-Dom/Prototype/actions/workflows/maquette.yml/badge.svg)](https://p-tit-dom.github.io/Prototype/)
 
 Maquette du site web ABAbyPtitDom en cours de développement (disponible [ici](https://p-tit-dom.github.io/Prototype/))
