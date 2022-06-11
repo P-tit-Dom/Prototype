@@ -129,3 +129,11 @@ Page de suivi de la progression d'un apprenant, permet de suivre la complétion 
 |:----------------------------|:------------------------------------------------------|
 |![Eval journalière](Documentation/Images/resume_derniere_demi_journee.PNG) | ![Fiche de Maintien](Documentation/Images/Comportements_suivis.PNG) |
 La page de résumé de la dernière demi-journée permet d'avoir un aperçu, (potentiellement affichable aux parents) de ce qui a été effectué dans la dernière séance par l'apprenant.| La page de suivi des troubles du comportement permet de suivre l'évolution et la tendance d'un trouble en particulier, de plus elle permettrait de réintroduire un comportement qui referait surface et de conserver une trace du travail effectué.
+
+## Authors
+
+- [Guillaume Arrat](https://github.com/gueillms)
+- [Charles Baylet](https://github.com/CBaylet)
+- [Iman Clin](https://github.com/iman-clin)
+- [Paul Malvaud](https://github.com/orgs/P-tit-Dom/people/PaulMalvaud)
+- [Paul Vaillant](https://github.com/pavaillant)
