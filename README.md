@@ -1,9 +1,8 @@
 # Prototype
 
-[![License: GPL v3](https://img.shields.io/github/license/P-tit-Dom/Prototype)](https://github.com/P-tit-Dom/Prototype/blob/main/LICENSE)
 [![Build](https://github.com/P-tit-Dom/Prototype/actions/workflows/maquette.yml/badge.svg)](https://p-tit-dom.github.io/Prototype/)
 
-Maquette du site web ABAbyPtitDom en cours de développement (disponible [ici](https://p-tit-dom.github.io/Prototype/#id=0370rq&p=accueil&g=1))
+Maquette du site web ABAbyPtitDom en cours de développement (disponible [ici](https://p-tit-dom.github.io/Prototype/))
 
 ## Prérequis
 
@@ -45,13 +44,13 @@ Lien vers une liste de tutoriels fournit par Axure permettant une bonne prise en
 
 ### `Page de connexion :`
 
-![Page de connexion](Documentation/Images/Page_de_connexion.PNG)
+<img src="Documentation/Images/Page_de_connexion.PNG" width="900">
 
 Premier écran à afficher, elle permettra d'identifier le rôle de la personne connectée. Les pages accessibles à l'utilisateur variant selon le rôle de celui-ci (*Psychologue, intervenante, parents ...*) tout utilisateur voulant se connecter au site devra au préalable avoir un compte (*potentiellement prévoir une manière de demander la création d'un compte pour la première connexion d'un intervenant ou d'un parent sur le site*)
 
 ### `Accueil :`
 
-![Page d'accueil](Documentation/Images/Page_d_accueil.PNG)
+<img src="Documentation/Images/Page_d_accueil.PNG" width="900">
 
 Page d'accueil du site, toutes les options ne seront donc pas accessibles à tous selon le rôle de l'utilisateur :
 
@@ -63,7 +62,7 @@ Page d'accueil du site, toutes les options ne seront donc pas accessibles à tou
 
 ### `Création du PEI :`
 
-![Creation PEI](Documentation/Images/Creation_PEI.PNG)
+<img src="Documentation/Images/Creation_PEI.PNG" width="900">
 
 Page de création du Programme Éducatif Individualisé soit la liste des Domaines/Compétences/Objectifs à aborder dans l'année pour un apprenant. Chaque domaine étant divisé en compétences lui étant associées et chaque compétence elle-même divisée en objectifs lui étant associés.  
 La case `Constat` permet d'indiquer le niveau actuel de l'apprenant sur l'objectif fonctionne.  
@@ -72,13 +71,14 @@ La case `Stratégie` d'indiquer la stratégie d'apprentissage de l'objectif.
 Bouton `historique des PEI` pour pouvoir consulter les PEI des années précédentes lors de la création d'un nouveau.  
 Possibilité de faire des `avenants au PEI` en cours d'année qu'il faudra à un moment refaire valider aux parents.
 
+
  **Exemple** :  
 **Domaine :** Communication et langage / **Compétence :** RA (Recherche d'attention) / **Objectif :** Interrompre son activité quand on l'appelle  
 **Constat :** X à tendance à ignorer l'adulte quand elle est en train d'écouter de la musique / **Priorité :** Introduction immédiate / **Stratégie :** Dire son prénom quand elle est en train de jouer par exemple, elle devra arréter et tourner la tête pour vous regarder.
 
 ### `Création des fiches de cotation :`
 
-![Création cotation](Documentation/Images/Création_cotation.PNG)
+<img src="Documentation/Images/Création_cotation.PNG" width="900">
 
 Page de création des fiches de cotation pour l'évaluation journalière soit la liste des cibles à aborder dans une demi-journée pour un apprenant.  
 La case `Type` permet de préciser le type de cotation :  
@@ -114,11 +114,12 @@ et une case vide pour une cotation qui n'a pas encore été effectuée.
 
 Onglet déroulant servant à noter le travail effectué en phase de PECS :
 
-![PECS Eval](Documentation/Images/PECS_Eval.PNG)
+<img src="Documentation/Images/PECS_Eval.PNG" width="900">  
+|  
 
 ### `Suivi de la progression :`
 
-![Suivi enfant](Documentation/Images/Suivi_enfant.PNG)
+<img src="Documentation/Images/Suivi_enfant.PNG" width="900">    
 
 Page de suivi de la progression d'un apprenant, permet de suivre la complétion du PEI par Domaines/Compétences/Objectifs. Un graphe serait aussi générable pour chaque cible afin de voir la vitesse de progression et si l'acquis a déjà été perdu au cours de l'année. De plus un résumé de l'évolution des troubles du comportement et de la dernière demi-journée seraient disponibles sur cette page :
 
@@ -126,11 +127,3 @@ Page de suivi de la progression d'un apprenant, permet de suivre la complétion 
 |:----------------------------|:------------------------------------------------------|
 |![Eval journalière](Documentation/Images/resume_derniere_demi_journee.PNG) | ![Fiche de Maintien](Documentation/Images/Comportements_suivis.PNG) |
 La page de résumé de la dernière demi-journée permet d'avoir un aperçu, (potentiellement affichable aux parents) de ce qui a été effectué dans la dernière séance par l'apprenant.| La page de suivi des troubles du comportement permet de suivre l'évolution et la tendance d'un trouble en particulier, de plus elle permettrait de réintroduire un comportement qui referait surface et de conserver une trace du travail effectué.
-
-## Authors
-
-- [Guillaume Arrat](https://github.com/gueillms)
-- [Charles Baylet](https://github.com/CBaylet)
-- [Iman Clin](https://github.com/iman-clin)
-- [Paul Malvaud](https://github.com/orgs/P-tit-Dom/people/PaulMalvaud)
-- [Paul Vaillant](https://github.com/pavaillant)
