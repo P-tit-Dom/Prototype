@@ -1,4 +1,4 @@
-name: "Déployer la maquette sur Github pages"
+name: "Deploiement de la maquette sur github pages"
 
 on:
   push:
