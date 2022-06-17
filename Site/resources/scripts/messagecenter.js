@@ -301,7 +301,7 @@ var BROWSER_VERSION = 5000;
 
     _messageCenter.postMessage = function (message, data) {
         if(_combineEventMessages) {
-            if(message == 'axEvent' || message == 'axCase' || message == 'axAction' || message == 'axEventComplete') {
+            if(message == 'axEvent' || message == 'axCase' || message == 'axAction' || message == 'axEventComplete' || message == 'axInfo') {
                 _compositeEventMessageData.push({ 'message': message, 'data': data });
                 if(_compositeEventMessageData.length >= 10) _messageCenter.sendCompositeEventMessage();
                 return;

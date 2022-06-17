@@ -42,7 +42,8 @@ $axure.internal(function ($ax) {
 
     // Every time Debug begins/ends tracing or a new Debug.js file finishes loading this value will be updated
     $axure.messageCenter.addStateListener("isTracing", function (key, value) {
-        isConsoleTracing = value;
+        isTempStop = value === 'tempStop';
+        isConsoleTracing = !isTempStop && value;
         isPageLoading = false;
 
         if (isConsoleTracing) {
@@ -51,7 +52,7 @@ $axure.internal(function ($ax) {
             }
         }
 
-        savedMessages = [];
+        if (!isTempStop) savedMessages = [];
     });
 
     var postMessage = function (message, data) {
@@ -332,7 +333,7 @@ $axure.internal(function ($ax) {
         var axObj = $obj(elementId);
         var axObjLabel = axObj ? axObj.label : eventInfo.label;
         var axObjType = axObj ? axObj.friendlyType : eventInfo.friendlyType;
-        if (!skipShowDescriptions || eventType == 'OnPageLoad') postMessage('axEvent', { 'label': axObjLabel, 'type': axObjType, 'event': axEventObject });
+        if (!skipShowDescriptions || eventType == 'OnPageLoad') postMessage('axEvent', { 'label': axObjLabel, 'type': axObjType, 'event': axEventObject, 'elementId': $ax.repeater.getScriptIdFromElementId(elementId) });
 
         var bubble = true;
         var showCaseDescriptions = !skipShowDescriptions && _shouldShowCaseDescriptions(axEventObject);

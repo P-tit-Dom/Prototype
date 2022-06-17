@@ -334,7 +334,8 @@ $axure.internal(function($ax) {
                 // Hide OnBeforeItemLoad event from the user
                 const wasTracing = $ax.messageCenter.getState('isTracing') === true;
                 // Make sure isTracing is false in case it was undefined
-                $ax.messageCenter.setState('isTracing', false);
+                // Send 'tempStop' state to not clear accumulated events (during page loading)
+                $ax.messageCenter.setState('isTracing', 'tempStop');
                 $ax.event.raiseSyntheticEvent(itemElementId, 'onBeforeItemLoad', true);
                 if(wasTracing) $ax.messageCenter.setState('isTracing', wasTracing);
                 $ax.event.raiseSyntheticEvent(itemElementId, 'onItemLoad', true);

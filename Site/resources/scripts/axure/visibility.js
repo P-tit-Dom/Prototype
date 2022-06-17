@@ -582,6 +582,16 @@
         return '';
     };
 
+    $ax.visibility.GetCurrentPanelDiagram = function (id) {
+        var obj = $obj(id);
+        if ($ax.public.fn.IsDynamicPanel(obj.type) && obj.diagrams && obj.diagrams.length > 0) {
+            var stateId = $ax.visibility.GetPanelState(id);
+            var stateLabel = $jobj(stateId).data('label');
+            return obj.diagrams.find(x => x.label === stateLabel);
+        }
+        return null;
+    };
+
     var containerCount = {};
     $ax.visibility.SetPanelState = function(id, stateId, easingOut, directionOut, durationOut, easingIn, directionIn, durationIn, showWhenSet) {
         var show = !$ax.visibility.IsIdVisible(id) && showWhenSet;

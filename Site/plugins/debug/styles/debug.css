@@ -230,10 +230,6 @@
     text-align: center
 }
 
-#traceEmptyState.emptyStateContainer {
-    margin-top: 0px;
-}
-
 .variableList{
     width: 100%;
     margin-bottom: 4px;
@@ -252,7 +248,7 @@
     display: inline-block;
 }
 
-.startInstructions {
+#traceEmptyState {
     margin: auto;
     width: 179px;
     font-size: 11px;
@@ -260,19 +256,19 @@
     /*color: #666666;*/
 }
 
-.startButton {
-    margin: auto;
-    margin-top: 10px;
-    width: 181px;
-    height: 24px;
-    border-radius: 2px;
-    border: solid 1px #1482C5;
-    text-align: center;
-    line-height: 24px;
-    color: #1482C5;
-    cursor: pointer;
-}
-
 .debugLinksContainer {
     text-align: right;
+}
+
+.axEventCounter {
+    display: inline-block;
+    width: 21px;
+    height: 21px;
+    font-size: 12px;
+    border-radius: 50%;
+    text-align: center;
+    color: #ffffff;
+    background-color: rgba(30, 152, 215, 1);
+    margin-left: 5px;
+    float: right;
 }
