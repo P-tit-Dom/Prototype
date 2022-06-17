@@ -3182,6 +3182,7 @@ var toolBarOnly = true;
                 _player.expandFromBar(id, context);
 
                 $(document).trigger('pluginShown', [getVisiblePlugins()]);
+                $axure.messageCenter.postMessage('openPlugin', id);
             }
         };
 

@@ -818,8 +818,40 @@
         const imageUrl = $ax.adaptive.getImageForStateAndView(id, event);
         if(imageUrl) _applyImage(id, imageUrl, event);
 
-        const style = _computeAllOverrides(id, undefined, event, $ax.adaptive.currentViewId);
-        if (!$.isEmptyObject(style) && textId) _applyTextStyle(textId, style);
+        if (textId) {
+            const overridedStyle = _computeAllOverrides(id, undefined, event, $ax.adaptive.currentViewId);
+            var borderElement = document.getElementById(id + '_div');
+            var textElement = document.getElementById(textId);
+            if (!$.isEmptyObject(overridedStyle)) {
+                var newSize = _applyTextStyle(textId, overridedStyle);
+                var diagramObject = $ax.getObjectFromElementId(id);
+                if (borderElement && textElement && (diagramObject.autoFitHeight || diagramObject.autoFitWidth)) {
+                    const fullStyle = _computeFullStyle(id, event, $ax.adaptive.currentViewId, overridedStyle);
+                    if (diagramObject.autoFitHeight) {
+                        var height = newSize.height;
+                        if (fullStyle.paddingTop) height += +fullStyle.paddingTop;
+                        if (fullStyle.paddingBottom) height += +fullStyle.paddingBottom;
+                        borderElement.style.height = height + 'px';
+                        textElement.style.top = 0;
+                    }
+                    if (diagramObject.autoFitWidth) {
+                        var width = newSize.width;
+                        if (fullStyle.paddingLeft) width += +fullStyle.paddingLeft;
+                        if (fullStyle.paddingRight) width += +fullStyle.paddingRight;
+                        borderElement.style.width = width + 'px';
+                        textElement.style.left = 0;
+                    }
+                }
+            } else if (borderElement && textElement) {
+                var parentElement = document.getElementById(id);
+                if (parentElement) {
+                    borderElement.style.height = parentElement.style.height;
+                    borderElement.style.width = parentElement.style.width;
+                }
+                textElement.style.top = '';
+                textElement.style.left = '';
+            }
+        }
 
         _updateStateClasses(
             [
@@ -981,14 +1013,25 @@
     };
 
     // returns the full effective style for an object in a state state and view
-    var _computeFullStyle = $ax.style.computeFullStyle = function(id, state, currentViewId) {
+    var _computeFullStyle = $ax.style.computeFullStyle = function(id, state, currentViewId, overrides) {
         var obj = $obj(id);
-        var overrides = _computeAllOverrides(id, undefined, state, currentViewId);
+        if (!overrides) overrides = _computeAllOverrides(id, undefined, state, currentViewId);
+        // get style for current state
+        var dynamicPanelStyle = _getCurrentPanelDiagramStyle(id);
+
         // todo: account for image box
         var objStyle = obj.style;
         var customStyle = objStyle.baseStyle && $ax.document.stylesheet.stylesById[objStyle.baseStyle];
-        var returnVal = $.extend({}, $ax.document.stylesheet.defaultStyle, customStyle, objStyle, overrides);
+        var returnVal = $.extend({}, $ax.document.stylesheet.defaultStyle, customStyle, objStyle, dynamicPanelStyle, overrides);
         return _removeUnsupportedProperties(returnVal, obj);
+    };
+
+    var _getCurrentPanelDiagramStyle = function (id) {
+        var diagramObj = $ax.visibility.GetCurrentPanelDiagram(id);
+        if (diagramObj) {
+            return diagramObj.style;
+        }
+        return {};
     };
 
     var _removeUnsupportedProperties = function(style, object) {
@@ -1181,7 +1224,7 @@
         var rtfElement = window.document.getElementById(textId);
         if(!rtfElement) return;
 
-        transformFn();
+        return transformFn();
 
         //_storeIdToAlignProps(textId);
 
@@ -1499,11 +1542,17 @@
     //                           'fontStyle' : 'italic' }
     //-------------------------------------------------------------------------
     var _applyTextStyle = function(id, style) {
-        _transformTextWithVerticalAlignment(id, function() {
+        return _transformTextWithVerticalAlignment(id, function() {
             var styleProperties = _getCssStyleProperties(style);
-            $('#' + id).find('*').each(function (index, element) {
+            var newSize = { width: 0, height: 0 };
+            $('#' + id).find('*').each(function(index, element) {
                 _applyCssProps(element, styleProperties);
+                var width = element.offsetWidth;
+                var height = element.offsetHeight;
+                if (width > newSize.width) newSize.width = width;
+                if (height > newSize.height) newSize.height = height;
             });
+            return newSize;
         });
     };
 

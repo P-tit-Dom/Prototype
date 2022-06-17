@@ -4,21 +4,23 @@
     if(!$axure.document.configuration.showConsole) { return; }
 
     $(document).ready(function () {
-        $axure.player.createPluginHost({
+        var pluginInfo = {
             id: 'debugHost',
             context: 'inspect',
-            title: 'Console',
+            title: 'Interaction Console',
             gid: 3
-        });
+        };
+        var pluginStarted = false;
+        var showEmptyState = true;
+        $axure.player.createPluginHost(pluginInfo);
+        var prevElId = 'p';
+        var currentElId = 'c';
 
         generateDebug();
 
         $('#variablesClearLink').click(clearvars_click);
         $('#traceClear').click(cleartrace_click);
         $('#traceToggle').click(stoptrace_click);
-        $('#traceStart').click(starttrace_click);
-        $('#traceClear').hide();
-        $('#traceToggle').hide();
 
         $('#closeConsole').click(close);
 
@@ -33,30 +35,39 @@
             } else processMessages(message, data);
         });
 
-        var processMessages = function(message, data) {
-            if(message == 'globalVariableValues') {
+        var processMessages = function (message, data) {
+            if(message == 'openPlugin') {
+                if(data == pluginInfo.id && !pluginStarted) {
+                    starttrace();
+                }
+            } else if(message == 'globalVariableValues') {
                 $('#variablesDiv').empty();
                 for(var key in data) {
                     var value = data[key] == '' ? '(blank)' : data[key];
                     $('#variablesDiv').append('<div class="variableList"><div class="variableName">' + key + '</div><div class="variableValue">' + value + '</div></div>');
                 }
             } else if(message == 'axEvent') {
+                hideEmptyState();
+                prevElId = currentElId;
+                currentElId = data.elementId;
+
                 var addToStack = "<div class='axEventBlock'>";
                 addToStack += "<div class='axEventContainer'>";
                 addToStack += "    <div class='axTime'>" + new Date().toLocaleTimeString() + "</div>";
                 addToStack += "    <div class='axLabel'>" + data.label + " (" + data.type + ")</div>";
                 addToStack += "    <div class='axEvent'>" + data.event.description + "</div>";
-                addToStack += "</div>";
+                addToStack += "</div></div>";
 
-                currentStack.push(addToStack);
+                currentStack.push($(addToStack));
             } else if (message == 'axEventComplete') {
-                currentStack[currentStack.length - 1] += "</div>";
+                handleNoCondition()
+                if (tryAddGroupCounter()) {
+                    currentStack.pop();
+                    return;
+                }
+
                 finishedStack.push(currentStack.pop());
                 if(currentStack.length == 0) {
-                    $('#traceEmptyState').hide();
-                    $('#traceClear').show();
-                    $('#traceToggle').show();
-
                     for(var i = finishedStack.length - 1; i >= 0; i--) {
                         if($('#traceDiv').children().length > 99) $('#traceDiv').children().last().remove();
                         $('#traceDiv').prepend(finishedStack[i]);
@@ -64,40 +75,90 @@
                     finishedStack = [];
                 }
             } else if (message == 'axCase') {
-                //var addToStack = "<div class='axCaseContainer' style='background-color: #" + data.color + "'>";
                 var addToStack = "<div class='axCaseContainer'>";
                 addToStack += "    <div class='axCaseItem'>" + data.item + "</div>";
                 if (data.description) { addToStack += "    <div class='axCaseDescription' title='" + data.description + "'>" + data.description + "</div>" };
                 addToStack += "</div>";
 
-                currentStack[currentStack.length - 1] += addToStack;
+                currentStack[currentStack.length - 1].append($(addToStack));
             } else if (message == 'axAction') {
                 var addToStack = "<div class='axActionContainer'>";
                 addToStack += "    <div class='axActionItem'>" + data.name + "</div>";
-                //addToStack += "    <div class='axActionItem'>" + data.item + "</div>";
-                //if (data.description) { addToStack += "    <div class='axActionDescription' title='" + data.description + "'>" + data.description + "</div>" };
                 addToStack += "</div>";
 
-                currentStack[currentStack.length - 1] += addToStack;
+                currentStack[currentStack.length - 1].append($(addToStack));
             } else if (message == 'axInfo') {
+                lastMessageType = message;
+
                 var addToStack = "<div class='axInfoContainer'>";
                 addToStack += "    <div class='axInfoItem'>" + data.item + "</div>";
                 if (data.description) { addToStack += "    <div class='axInfoDescription' title='" + data.longDescription + "'>" + data.description + "</div>" };
                 addToStack += "</div>";
 
-                currentStack[currentStack.length - 1] += addToStack;
+                currentStack[currentStack.length - 1].append($(addToStack));
             }
         }
 
         // bind to the page load
         $axure.page.bind('load.debug', function () {
             var traceStr = $axure.player.getHashStringVar(TRACE_VAR_NAME);
-            if (traceStr.length > 0) $axure.messageCenter.setState("isTracing", true);
-            else $axure.messageCenter.setState("isTracing", false);
+            if (!traceStr) $axure.messageCenter.setState("isTracing", false);
+            else if (traceStr == 1) starttrace();
+            else if (traceStr == 0) stoptrace_click();
             $axure.messageCenter.postMessage('getGlobalVariables', '');
 
             return false;
         });
+
+        function handleNoCondition() {
+            var event = currentStack[currentStack.length - 1];
+            var action = event.find('.axActionContainer');
+            if (action.length == 0) {
+                event.append($("<div class='axActionContainer'><span>No condition met</span></div></div>"));
+            }
+        }
+
+        function compareEventBlocks(first, second) {
+            if(currentElId !== prevElId) return false;
+            var firstClone = first.clone();
+            var secondClone = second.clone();
+            firstClone.find('.axTime').remove();
+            secondClone.find('.axTime').remove();
+            firstClone.find('.axEventCounter').remove();
+            secondClone.find('.axEventCounter').remove();
+            return firstClone.html() === secondClone.html();
+        }
+
+        function tryAddGroupCounter() {
+            var prevEvent;
+            if(finishedStack.length == 0 && currentStack.length == 1) {
+                prevEvent = $('#traceDiv').find('.axEventBlock').first();
+                if(prevEvent.length == 0) return false;
+            } else if(finishedStack.length > 0) {
+                prevEvent = finishedStack[finishedStack.length - 1];
+            } else {
+                return false;
+            }
+
+            var currentEvent = currentStack[currentStack.length - 1];
+
+            if(compareEventBlocks(prevEvent, currentEvent)) {
+                var prevLabel = prevEvent.find('.axLabel');
+                var counterBlock = prevLabel.find('.axEventCounter');
+                prevEvent.find('.axTime').text(currentEvent.find('.axTime').text());
+                if(counterBlock.length == 0) {
+                    var eventCounter = "<span class='axEventCounter'>2</span>";
+                    prevLabel.append($(eventCounter));
+                    return true;
+                }
+                var count = counterBlock.text();
+                if(isNaN(count)) return true;
+                if(count > 8) counterBlock.text('9+');
+                else counterBlock.text(+count + 1);
+                return true;
+            }
+            return false;
+        }
 
         function clearvars_click(event) {
             $axure.messageCenter.postMessage('resetGlobalVariables', '');
@@ -109,19 +170,35 @@
 
         function cleartrace_click(event) {
             $('#traceDiv').html('');
+            clearLastEventState();
         }
 
-        function starttrace_click(event) {
+        function clearLastEventState() {
+            lastEventId = '';
+            sameLastEvent = false;
+            lastCaseName = '';
+        }
+
+        function starttrace() {
             $axure.messageCenter.setState("isTracing", true);
-            //$('#traceDiv').html('');
-            $('#traceEmptyState').hide();
-            $('#traceClear').show();
+            console.log("starting trace");
+            $axure.player.setVarInCurrentUrlHash(TRACE_VAR_NAME, 1);
+            pluginStarted = true;
+        }
+
+        function hideEmptyState() {
+            if(showEmptyState) {
+                $('#traceEmptyState').hide();
+                showEmptyState = false;
+            }
+        }
+
+        function restarttrace_click(event) {
             $('#traceToggle').text('Stop Trace');
             $('#traceToggle').off("click");
             $('#traceToggle').click(stoptrace_click);
-            $('#traceToggle').show();
-            console.log("starting trace");
-            $axure.player.setVarInCurrentUrlHash(TRACE_VAR_NAME, 1);
+            starttrace();
+            clearLastEventState();
         }
 
         function stoptrace_click(event) {
@@ -129,9 +206,10 @@
             $('#traceDiv').prepend('<div class="tracePausedNotification">Trace Paused<div>');
             $('#traceToggle').text('Restart Trace');
             $('#traceToggle').off("click");
-            $('#traceToggle').click(starttrace_click);
+            $('#traceToggle').click(restarttrace_click);
             console.log("stopping trace");
-            $axure.player.deleteVarFromCurrentUrlHash(TRACE_VAR_NAME);
+            $axure.player.setVarInCurrentUrlHash(TRACE_VAR_NAME, 0);
+            pluginStarted = true;
         }
     });
 
@@ -157,16 +235,11 @@
         pageNotesUi += "<div id='debugScrollContainer'>";
         pageNotesUi += "<div id='debugContainer'>";
 
-
-        pageNotesUi += "<div id='traceEmptyState'>";
-        pageNotesUi += "<div class='startInstructions'>Click the button below to start recording interactions as you click through the prototype.</div>";
-        pageNotesUi += "<div id='traceStart' class='startButton'>Start Trace</div>";
-        pageNotesUi += "</div>";
+        pageNotesUi += "<div id='traceEmptyState'>Interactions will be recorded here as you click through the prototype.</div>";
         pageNotesUi += "<div id='traceDiv'></div></div>";
         pageNotesUi += "</div></div>";
 
         $('#debugHost').append(pageNotesUi);
-        $('#traceEmptyState').show();
     }
 
 })();   

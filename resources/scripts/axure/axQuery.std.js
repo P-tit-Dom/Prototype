@@ -60,6 +60,13 @@ $axure.internal(function($ax) {
     $ax.public.fn.IsConnector = function (type) { return type == $ax.constants.CONNECTOR_TYPE; }
     $ax.public.fn.IsContainer = function (type) { return type== $ax.constants.VECTOR_SHAPE_TYPE || type == $ax.constants.TABLE_TYPE || type == $ax.constants.MENU_OBJECT_TYPE || type == $ax.constants.TREE_NODE_OBJECT_TYPE; }
 
+    var SET_OPACITY_TYES = [
+        $ax.constants.CHECK_BOX_TYPE, $ax.constants.RADIO_BUTTON_TYPE, $ax.constants.TEXT_BOX_TYPE,
+        $ax.constants.TEXT_AREA_TYPE, $ax.constants.LIST_BOX_TYPE, $ax.constants.COMBO_BOX_TYPE, $ax.constants.BUTTON_TYPE,
+        $ax.constants.IMAGE_BOX_TYPE, $ax.constants.IMAGE_MAP_REGION_TYPE, $ax.constants.VECTOR_SHAPE_TYPE
+    ];
+    $ax.public.fn.SupportSetOpacity = function (type) { return $.inArray(type, SET_OPACITY_TYES) !== -1; }
+
     var PLAIN_TEXT_TYPES = [$ax.constants.TEXT_BOX_TYPE, $ax.constants.TEXT_AREA_TYPE, $ax.constants.LIST_BOX_TYPE,
         $ax.constants.COMBO_BOX_TYPE, $ax.constants.CHECK_BOX_TYPE, $ax.constants.RADIO_BUTTON_TYPE, $ax.constants.BUTTON_TYPE];
 
@@ -393,21 +400,30 @@ $axure.internal(function($ax) {
             easing = 'none';
             duration = 0;
         }
+        function setOpacity(ids) {
+            for(var index = 0; index < ids.length; index++) {
+                var elementId = ids[index];
+                var obj = $obj(elementId);
+                // set opacity of child elements recursively
+                if($ax.public.fn.IsLayer(obj.type)) {
+                    setOpacity(obj.objs.flatMap(o => o.scriptIds));
+                } else if($ax.public.fn.SupportSetOpacity(obj.type)) {
+                    var onComplete = function () {
+                        $ax.action.fireAnimationFromQueue(elementId, $ax.action.queueTypes.fade);
+                    };
+
+                    var query = $jobj(elementId);
+                    if(duration == 0 || easing == 'none') {
+                        query.css('opacity', opacity);
+                        onComplete();
+                    } else query.animate({ opacity: opacity }, { duration: duration, easing: easing, queue: false, complete: onComplete });
+                }
+            }
+        }
 
         var elementIds = this.getElementIds();
-
-        for(var index = 0; index < elementIds.length; index++) {
-            var elementId = elementIds[index];
-            var onComplete = function() {
-                $ax.action.fireAnimationFromQueue(elementId, $ax.action.queueTypes.fade);
-            };
-
-            var query = $jobj(elementId);
-            if(duration == 0 || easing == 'none') {
-                query.css('opacity', opacity);
-                onComplete();
-            } else query.animate({ opacity: opacity }, { duration: duration, easing: easing, queue: false, complete: onComplete });
-        }
+        setOpacity(elementIds);
+        
     }
     //move one widget.  I didn't combine moveto and moveby, since this is in .public, and separate them maybe more clear for the user
     var _move = function (elementId, x, y, options, moveTo) {
