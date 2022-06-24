@@ -61,7 +61,7 @@ Page d'accueil de l'application, toutes les options ne seront donc pas accessibl
 
 ### `Page de l'apprenant, édition des fiches de cotation :`
 
-<img src="Documentation/Images/Page_apprenant_cotation_edition.png" width="900">
+<img src="Documentation/Images/Page_apprenant_cotation_edition.PNG" width="900">
 
 Menu de création des fiches de cotation pour l'évaluation journalière soit la liste des cibles à aborder dans une demi-journée pour un apprenant.  
 La case `Type` permet de préciser le type de cotation :  
@@ -83,7 +83,7 @@ En dessous la liste des cibles acquises dans la fiche de maintien avec possibili
 
 ### `Page de l'apprenant, historique des fiches de cotation :`
 
-<img src="Documentation/Images/Page_apprenant_cotation_historique.png" width="900">
+<img src="Documentation/Images/Page_apprenant_cotation_historique.PNG" width="900">
 
 Menu de consultation des cotations des séances précédentes, permet de garder un historique complet de la progression d'un enfant, classée par type d'activité.
 
@@ -106,7 +106,7 @@ Ajout d'un bouton permettant d'importer directement des objectifs depuis le PEI 
 
 ### `Suivi de la progression :`
 
-<img src="Documentation/Images/Suivi_enfant.png" width="900">
+<img src="Documentation/Images/Suivi_enfant.PNG" width="900">
 
 Page de suivi de la progression d'un apprenant, permet de suivre la complétion du PEI par Domaines/Compétences/Objectifs. Un graphe serait aussi générable pour chaque cible afin de voir la vitesse de progression et si l'acquis a déjà été perdu au cours de l'année. De plus un résumé de l'évolution des troubles du comportement et de la dernière demi-journée seraient disponibles sur cette page :
 
@@ -128,7 +128,7 @@ et une case vide pour une cotation qui n'a pas encore été effectuée.
 
 ### `Accueil Parent :`
 
-<img src="Documentation/Images/Accueil_parent.png" width="900">
+<img src="Documentation/Images/Accueil_parent.PNG" width="900">
 
 Les parents auraient donc accès à **l'historique des fiches de cotation**, la **consultation du PEI** et le **suivi de progression** de leur enfant.
 Petit ajout cependant, dans la consultation du PEI une icone de notification s'affiche sur l'onglet en cas *d'avenant au PEI*, càd dans le cas où le PEI serait modifié en cours de cycle. Il faudrait alors une validation par les parents du nouveau PEI, validation qui pourrait se faire en ligne pour de petites modifications, contrairement à la toute première validation du PEI qui doit se faire en personne par demande des psychologues.
@@ -137,14 +137,14 @@ Petit ajout cependant, dans la consultation du PEI une icone de notification s'a
 
 ### `Paramétrage des domaines/compétences/objectifs :`
 
-<img src="Documentation/Images/domaines_competences_objectifs.png" width="900">
+<img src="Documentation/Images/domaines_competences_objectifs.PNG" width="900">
 
 Menu de paramétrage, permet d'ajouter et modifier des domaines/compétences/objectifs à la base de donnée. Chaque élément des listes est cliquable pour sélectionner le chemin d'accés à l'objectif/la compétence.  
 Par exemple pour afficher dans la liste du milieu les compétences associées au domaine 2, il suffit de cliquer sur domaine 2 dans la liste de gauche. Ensuite il suffit de saisir le nom de la compétence que l'on veut ajouter.
 
 ### `Paramétrage de la banque d'images PECS et des modèles de cibles :`
 
-<img src="Documentation/Images/PECS_modeles.png" width="900">
+<img src="Documentation/Images/PECS_modeles.PNG" width="900">
   
 Menu de paramétrage gérant deux banques de données à la fois.
 
@@ -154,14 +154,14 @@ Menu de paramétrage gérant deux banques de données à la fois.
 
 ### `Gestion des utilisateurs du site :`
 
-<img src="Documentation/Images/Gestion_utilisateurs.png" width="900">
+<img src="Documentation/Images/Gestion_utilisateurs.PNG" width="900">
 
 Menu de gestion des utilisateurs, nécessaire pour retirer l'accès à l'application aux intervenants à la fin de leur service civique et ajouter les nouveaux. Devra aussi permettre à terme la gestion des parents et l'attribution d'un profil parent à un enfant (ou plus au cas où).
 
 ### `Paramétrage des données sur l'enfant, sur la page de l'apprenant :`
 
-<img src="Documentation/Images/Parametrage_apprenant.png" width="900">
+<img src="Documentation/Images/Parametrage_apprenant.PNG" width="900">
 
 Menu de gestion des des cibles personnalisées et du classeur PECS propres à l'enfant. On peut donc appliquer les modèles de cibles vus plus tôts, en enregistrer un nouveau dans le cas où la liste ne correspond pas déjà à un modèle connu et en ajouter/retirer aux modèles pré-existants pour ajuster plus précisément aux besoins de l'enfant. Ce menu permet aussi de paramétrer pour chaque cible les critères d'acquisition et de révision, de manière à ce qu'une cible validant le critère d'acquisition soit automatiquement considérée comme validée, et une cible suivant le critère de révision soit automatiquement remise dans la liste des cibles à acquérir.
 
-L'onglet de gestion du classeur PECS permet de répertorier les pictos déjà connus et utilisés par l'enfant de manière à réduire la liste de pictos disponible dans la saisie de la fiche PECS.
+L'onglet de gestion du classeur PECS permet de répertorier les pictos déjà connus et utilisés par l'enfant de manière à réduire la liste de pictos disponible dans la saisie de la fiche PECS. 
